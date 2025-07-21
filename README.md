@@ -1,9 +1,3 @@
-Here’s a **README.md** draft for your project, based on everything you’ve shared so far.
-It’s written cleanly and ready for your repo — you can tweak details like project name or add screenshots later.
-
----
-
-```markdown
 # My Diner 🍽️
 
 A **Next.js 15** application for sharing and exploring meals.  
