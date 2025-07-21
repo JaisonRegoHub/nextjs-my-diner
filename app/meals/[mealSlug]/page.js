@@ -3,15 +3,30 @@ import mealsDetailStyles from "./page.module.css";
 import { getMeal } from "@/lib/meals";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata({ params }) {
+  const meal = getMeal(params.mealSlug);
+
+  if (!meal) {
+    return {
+      title: "Meal not found",
+      description: "The requested meal does not exist.",
+    };
+  }
+
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 export default async function MealDetailPage({ params }) {
-  const { mealSlug } = await params;
-  const meal = getMeal(mealSlug);
+  const meal = getMeal(params.mealSlug);
 
-	if (!meal) {
-		notFound();
-	}
+  if (!meal) {
+    notFound();
+  }
 
-  meal.instructions = meal.instructions.replace(/\n/g, "<br />");
+  const instructionsHtml = meal.instructions.replace(/\n/g, "<br />");
 
   return (
     <>
@@ -30,10 +45,8 @@ export default async function MealDetailPage({ params }) {
       <main>
         <p
           className={mealsDetailStyles.instructions}
-          dangerouslySetInnerHTML={{
-            __html: meal.instructions,
-          }}
-        ></p>
+          dangerouslySetInnerHTML={{ __html: instructionsHtml }}
+        />
       </main>
     </>
   );
